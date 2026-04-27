@@ -2,18 +2,18 @@
 FROM node:18-alpine AS build
 WORKDIR /app
 
-# 1. Install dependencies first (better caching)
+# Copy package files and install
 COPY package*.json ./
 RUN npm install
 
-# 2. Copy the rest of the code
+# Copy everything else (including the .env files created by GitHub)
 COPY . .
 
-# 3. Environment Setup & Build
+# We must re-declare the ARG inside the build stage to use it in RUN
 ARG ENV_FILE
-# The 'ls' helps us see if the file actually exists in the runner
-RUN ls -la && \
-    cp ${ENV_FILE} .env && \
+RUN echo "Building with file: $ENV_FILE" && \
+    ls -la $ENV_FILE && \
+    cp $ENV_FILE .env && \
     CI=false npm run build
 
 # Production stage
