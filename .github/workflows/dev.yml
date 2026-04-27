@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: created .env.dev file from secrets
-        run: echo "${{ secrets.ENV_DEV_FILE }}" > .env.dev
+        run: printf "%s" "${{ secrets.ENV_DEV_FILE }}" > .env.dev
 
       - name: build docker image
         run: |
