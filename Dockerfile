@@ -11,7 +11,6 @@ ARG API_URL
 
 
 RUN echo "MY_SECRET_KEY=$MY_SECRET_KEY" > .env && \
-    echo "API_URL=$API_URL" >> .env && \
     npm run build
 
 # Step 2: Production Stage (Nginx)
